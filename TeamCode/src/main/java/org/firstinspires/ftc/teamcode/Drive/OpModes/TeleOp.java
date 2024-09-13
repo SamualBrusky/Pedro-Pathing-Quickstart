@@ -16,8 +16,10 @@ import org.firstinspires.ftc.teamcode.Drive.Commands.LiftLowBucketPosCmd;
 import org.firstinspires.ftc.teamcode.Drive.Commands.LiftStartPosCmd;
 import org.firstinspires.ftc.teamcode.Drive.Commands.LiftSubmersibleScoreCmd;
 import org.firstinspires.ftc.teamcode.Drive.Commands.LiftSubmersibleSetupCmd;
+import org.firstinspires.ftc.teamcode.Drive.subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.Drive.subsystems.GrabberSubsystem;
 import org.firstinspires.ftc.teamcode.Drive.subsystems.LiftSubsystem;
+import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "Blue TeleOp")
 @Disabled
@@ -25,9 +27,10 @@ public class TeleOp extends CommandOpMode {
     //drive subsystem
     private MotorEx m_frontLeft, m_frontRight, m_backLeft, m_backRight;
     private RevIMU m_imu;
+    private Follower follower;
+
     //GamePads
-    private GamepadEx m_driverOp;
-    private GamepadEx m_engineerOp;
+    private GamepadEx m_driverOp, m_engineerOp;
 
     private LiftHighBucketPosCmd m_LiftHighBucketPosCmd;
     private LiftStartPosCmd m_LiftStartPosCmd;
@@ -38,12 +41,15 @@ public class TeleOp extends CommandOpMode {
     private LiftLowBucketPosCmd m_LiftLowBucketPosCmd;
     private LiftSubmersibleScoreCmd m_LiftSubmersibleScoreCmd;
 
+    private DriveSubsystem m_DriveSubsystem;
     private GrabberSubsystem m_GrabberSubsystem;
     private LiftSubsystem m_LiftSubsystem;
+
     @Override
     public void initialize() {
         // Chasis Motors
         m_LiftSubsystem = new LiftSubsystem(hardwareMap);
+        m_DriveSubsystem = new DriveSubsystem(hardwareMap);
         //Intake
         m_GrabberSubsystem = new GrabberSubsystem(hardwareMap);
         //Gamepads
@@ -64,6 +70,8 @@ public class TeleOp extends CommandOpMode {
         m_engineerOp.getGamepadButton(GamepadKeys.Button.X).whenPressed(m_GrabberOpenCmd);
         m_engineerOp.getGamepadButton(GamepadKeys.Button.A).whenPressed(m_GrabberCloseCmd);
         m_engineerOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(m_LiftHighBucketPosCmd);
+
+        m_DriveSubsystem.PedroDrive(follower, m_driverOp.getLeftY(), m_driverOp.getLeftX(), m_driverOp.getRightX(), m_imu);
     }
 
 }
