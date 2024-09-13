@@ -25,7 +25,6 @@ public class TeleOp extends CommandOpMode {
     //drive subsystem
     private MotorEx m_frontLeft, m_frontRight, m_backLeft, m_backRight;
     private RevIMU m_imu;
-    private MecanumDrive mecanumDrive;
     //GamePads
     private GamepadEx m_driverOp;
     private GamepadEx m_engineerOp;
@@ -61,16 +60,10 @@ public class TeleOp extends CommandOpMode {
         m_LiftLowBucketPosCmd = new LiftLowBucketPosCmd(m_LiftSubsystem);
         m_LiftSubmersibleSetupCmd = new LiftSubmersibleSetupCmd(m_LiftSubsystem);
 
-        m_LiftIntakePos = (new GamepadButton(m_engineerOp, GamepadKeys.Button.LEFT_BUMPER)
-                .whenPressed(m_LiftintakePosCmd));
-
-        m_GrabberOpen = (new GamepadButton(m_engineerOp, GamepadKeys.Button.X)
-                .whenPressed(m_GrabberOpenCmd));
-
-        m_engineerOp.getGamepadButton(GamepadKeys.Button.A).
-                whenPressed(m_GrabberCloseCmd);
-        m_engineerOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .whenPressed(m_LiftHighBucketPosCmd);
+        m_engineerOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(m_LiftintakePosCmd);
+        m_engineerOp.getGamepadButton(GamepadKeys.Button.X).whenPressed(m_GrabberOpenCmd);
+        m_engineerOp.getGamepadButton(GamepadKeys.Button.A).whenPressed(m_GrabberCloseCmd);
+        m_engineerOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(m_LiftHighBucketPosCmd);
     }
 
 }

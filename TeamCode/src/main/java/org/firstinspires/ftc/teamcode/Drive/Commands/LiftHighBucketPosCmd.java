@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.Drive.Commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
+import org.firstinspires.ftc.teamcode.Drive.subsystems.LiftSubsystem;
 
 /**
  * A command to move the lift to the high bucket position.
