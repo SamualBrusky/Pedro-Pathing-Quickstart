@@ -70,6 +70,9 @@ public class TeleOp extends CommandOpMode {
         m_engineerOp.getGamepadButton(GamepadKeys.Button.X).whenPressed(m_GrabberOpenCmd);
         m_engineerOp.getGamepadButton(GamepadKeys.Button.A).whenPressed(m_GrabberCloseCmd);
         m_engineerOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(m_LiftHighBucketPosCmd);
+        m_engineerOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(m_LiftLowBucketPosCmd);
+        m_engineerOp.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(m_LiftSubmersibleScoreCmd);
+        m_engineerOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(m_LiftSubmersibleSetupCmd);
 
         m_DriveSubsystem.PedroDrive(follower, m_driverOp.getLeftY(), m_driverOp.getLeftX(), m_driverOp.getRightX(), m_imu);
     }

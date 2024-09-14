@@ -51,8 +51,8 @@ public class DriveSubsystem extends SubsystemBase {
         m_BackRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
     }
 
-    public void PedroDrive (Follower follower, double x, double y, double z, RevIMU imu) {
-        follower.setTeleOpMovementVectors(x, y, z);
+    public void PedroDrive(Follower follower, double x, double y, double z, RevIMU imu) {
+        follower.setTeleOpMovementVectors(x, y, z, false);
         follower.update();
     }
 
