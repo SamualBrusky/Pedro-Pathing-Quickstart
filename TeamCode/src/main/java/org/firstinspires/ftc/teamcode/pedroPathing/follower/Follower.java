@@ -58,10 +58,10 @@ import java.util.List;
 public class Follower {
     private HardwareMap hardwareMap;
 
-    private DcMotorEx leftFront;
-    private DcMotorEx leftRear;
-    private DcMotorEx rightFront;
-    private DcMotorEx rightRear;
+    private DcMotorEx m_FrontLeft;
+    private DcMotorEx m_FrontRight;
+    private DcMotorEx m_BackLeft;
+    private DcMotorEx m_BackRight;
     private List<DcMotorEx> motors;
 
     private DriveVectorScaler driveVectorScaler;
@@ -158,16 +158,16 @@ public class Follower {
         driveVectorScaler = new DriveVectorScaler(FollowerConstants.frontLeftVector);
         poseUpdater = new PoseUpdater(hardwareMap);
 
-        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
-        leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
-        rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
-        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+        m_FrontLeft = hardwareMap.get(DcMotorEx.class, "leftFront");
+        m_BackLeft = hardwareMap.get(DcMotorEx.class, "leftRear");
+        m_BackRight = hardwareMap.get(DcMotorEx.class, "rightRear");
+        m_FrontRight = hardwareMap.get(DcMotorEx.class, "rightFront");
 
         // TODO: Make sure that this is the direction your motors need to be reversed in.
-        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
+        m_FrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        m_BackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        motors = Arrays.asList(leftFront, leftRear, rightFront, rightRear);
+        motors = Arrays.asList(m_FrontLeft, m_BackLeft, m_FrontRight, m_BackRight);
 
         for (DcMotorEx motor : motors) {
             MotorConfigurationType motorConfigurationType = motor.getMotorType().clone();
