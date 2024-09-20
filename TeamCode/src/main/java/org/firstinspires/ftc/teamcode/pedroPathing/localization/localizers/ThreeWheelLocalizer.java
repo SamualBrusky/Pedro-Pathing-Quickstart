@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.MathFunctions;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Vector;
 import org.firstinspires.ftc.teamcode.pedroPathing.util.NanoTimer;
+import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 
 /**
  * This is the ThreeWheelLocalizer class. This class extends the Localizer superclass and is a
@@ -82,9 +83,9 @@ public class ThreeWheelLocalizer extends Localizer {
         hardwareMap = map;
 
         // TODO: replace these with your encoder ports
-        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "frontRight"));
         rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "backLeft"));
-        strafeEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "backRight"));
+        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "frontRight"));
+        strafeEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "frontLeft"));
 
         // TODO: reverse any encoders necessary
         leftEncoder.setDirection(Encoder.FORWARD);

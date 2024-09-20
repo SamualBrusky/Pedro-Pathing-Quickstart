@@ -158,10 +158,10 @@ public class Follower {
         driveVectorScaler = new DriveVectorScaler(FollowerConstants.frontLeftVector);
         poseUpdater = new PoseUpdater(hardwareMap);
 
-        m_FrontLeft = hardwareMap.get(DcMotorEx.class, "leftFront");
-        m_BackLeft = hardwareMap.get(DcMotorEx.class, "leftRear");
-        m_BackRight = hardwareMap.get(DcMotorEx.class, "rightRear");
-        m_FrontRight = hardwareMap.get(DcMotorEx.class, "rightFront");
+        m_FrontLeft = hardwareMap.get(DcMotorEx.class, "frontLeft");
+        m_BackLeft = hardwareMap.get(DcMotorEx.class, "backLeft");
+        m_BackRight = hardwareMap.get(DcMotorEx.class, "backRight");
+        m_FrontRight = hardwareMap.get(DcMotorEx.class, "frontRight");
 
         // TODO: Make sure that this is the direction your motors need to be reversed in.
         m_FrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
