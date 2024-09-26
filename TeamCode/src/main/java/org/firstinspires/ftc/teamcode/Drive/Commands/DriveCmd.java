@@ -16,12 +16,10 @@ import java.util.function.DoubleSupplier;
 public class DriveCmd extends CommandBase {
 
     Follower m_follower;
-    double x;
-    double y;
-    double z;
+    private DoubleSupplier x, y, z;
     private DriveSubsystem driveSubsystem;
 
-    public DriveCmd(DriveSubsystem driveSubsystem, Follower follower, double x, double y, double z) {
+    public DriveCmd(DriveSubsystem driveSubsystem, Follower follower, DoubleSupplier x, DoubleSupplier y, DoubleSupplier z) {
         m_follower = follower;
         this.x = x;
         this.y = y;
@@ -36,7 +34,7 @@ public class DriveCmd extends CommandBase {
     }
     @Override
     public void execute() {
-        driveSubsystem.PedroDrive(m_follower, x, y, z);
+        driveSubsystem.PedroDrive(m_follower, x.getAsDouble(), y.getAsDouble(), z.getAsDouble());
     }
 
 }

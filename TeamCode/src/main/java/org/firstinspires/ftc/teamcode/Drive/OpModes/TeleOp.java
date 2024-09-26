@@ -38,13 +38,13 @@ public class TeleOp extends CommandOpMode {
 
 //    private LiftHighBucketPosCmd m_LiftHighBucketPosCmd;
 //    private LiftStartPosCmd m_LiftStartPosCmd;
-      private LiftIntakePosCmd m_LiftintakePosCmd;
+//    private LiftIntakePosCmd m_LiftintakePosCmd;
 //    private GrabberOpenCmd m_GrabberOpenCmd;
 //    private GrabberCloseCmd m_GrabberCloseCmd;
 //    private LiftSubmersibleSetupCmd m_LiftSubmersibleSetupCmd;
 //    private LiftLowBucketPosCmd m_LiftLowBucketPosCmd;
 //    private LiftSubmersibleScoreCmd m_LiftSubmersibleScoreCmd;
-      DriveCmd m_DriveCmd;
+      private DriveCmd m_DriveCmd;
 
     public DriveSubsystem m_DriveSubsystem;
 
@@ -52,9 +52,10 @@ public class TeleOp extends CommandOpMode {
 //    LiftSubsystem m_LiftSubsystem;
 
 
-//    public void whileWaitingToStart() {
-//      CommandScheduler.getInstance().run();
-//    }
+    public void whileWaitingToStart() {
+      CommandScheduler.getInstance().run();
+    }
+
     @Override
     public void initialize() {
         m_imu = hardwareMap.get(IMU.class, "imu");
@@ -77,13 +78,12 @@ public class TeleOp extends CommandOpMode {
         //init commands
 //        m_LiftStartPosCmd = new LiftStartPosCmd(m_LiftSubsystem);
 //        m_LiftHighBucketPosCmd = new LiftHighBucketPosCmd(m_LiftSubsystem);
-        //m_LiftintakePosCmd = new LiftIntakePosCmd(m_LiftSubsystem);
+//        //m_LiftintakePosCmd = new LiftIntakePosCmd(m_LiftSubsystem);
 //        m_GrabberCloseCmd = new GrabberCloseCmd(m_GrabberSubsystem);
 //        m_GrabberOpenCmd = new GrabberOpenCmd(m_GrabberSubsystem);
 //        m_LiftSubmersibleScoreCmd = new LiftSubmersibleScoreCmd(m_LiftSubsystem);
 //        m_LiftLowBucketPosCmd = new LiftLowBucketPosCmd(m_LiftSubsystem);
 //        m_LiftSubmersibleSetupCmd = new LiftSubmersibleSetupCmd(m_LiftSubsystem);
-
 
        // m_engineerOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(m_LiftintakePosCmd);
 //        m_engineerOp.getGamepadButton(GamepadKeys.Button.X).whenPressed(m_GrabberOpenCmd);
@@ -97,14 +97,14 @@ public class TeleOp extends CommandOpMode {
 //        follower.setTeleOpMovementVectors(m_driverOp.getLeftY(), m_driverOp.getLeftX(), m_driverOp.getRightX(), false);
 //        follower.update();
 
-//        waitForStart();
         m_DriveSubsystem.setDefaultCommand( new DriveCmd(
                 m_DriveSubsystem,
                 follower,
-                m_driverOp.getLeftY(),
-                m_driverOp.getLeftX(),
-                m_driverOp.getRightX()
+                () -> m_driverOp.getLeftY(),
+                () -> m_driverOp.getLeftX(),
+                () -> m_driverOp.getRightX()
         ));
+
 //        while (opModeIsActive()) {
 //
 //
