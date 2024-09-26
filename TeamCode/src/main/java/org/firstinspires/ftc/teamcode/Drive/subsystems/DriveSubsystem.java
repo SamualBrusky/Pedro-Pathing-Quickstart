@@ -31,132 +31,6 @@ import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
  */
 public class DriveSubsystem extends SubsystemBase {
 
-    Telemetry telemetry = new Telemetry() {
-        @Override
-        public Item addData(String caption, String format, Object... args) {
-            return null;
-        }
-
-        @Override
-        public Item addData(String caption, Object value) {
-            return null;
-        }
-
-        @Override
-        public <T> Item addData(String caption, Func<T> valueProducer) {
-            return null;
-        }
-
-        @Override
-        public <T> Item addData(String caption, String format, Func<T> valueProducer) {
-            return null;
-        }
-
-        @Override
-        public boolean removeItem(Item item) {
-            return false;
-        }
-
-        @Override
-        public void clear() {
-
-        }
-
-        @Override
-        public void clearAll() {
-
-        }
-
-        @Override
-        public Object addAction(Runnable action) {
-            return null;
-        }
-
-        @Override
-        public boolean removeAction(Object token) {
-            return false;
-        }
-
-        @Override
-        public void speak(String text) {
-
-        }
-
-        @Override
-        public void speak(String text, String languageCode, String countryCode) {
-
-        }
-
-        @Override
-        public boolean update() {
-            return false;
-        }
-
-        @Override
-        public Line addLine() {
-            return null;
-        }
-
-        @Override
-        public Line addLine(String lineCaption) {
-            return null;
-        }
-
-        @Override
-        public boolean removeLine(Line line) {
-            return false;
-        }
-
-        @Override
-        public boolean isAutoClear() {
-            return false;
-        }
-
-        @Override
-        public void setAutoClear(boolean autoClear) {
-
-        }
-
-        @Override
-        public int getMsTransmissionInterval() {
-            return 0;
-        }
-
-        @Override
-        public void setMsTransmissionInterval(int msTransmissionInterval) {
-
-        }
-
-        @Override
-        public String getItemSeparator() {
-            return "";
-        }
-
-        @Override
-        public void setItemSeparator(String itemSeparator) {
-
-        }
-
-        @Override
-        public String getCaptionValueSeparator() {
-            return "";
-        }
-
-        @Override
-        public void setCaptionValueSeparator(String captionValueSeparator) {
-
-        }
-
-        @Override
-        public void setDisplayFormat(DisplayFormat displayFormat) {
-
-        }
-
-        @Override
-        public Log log() {
-            return null;
-        }
-    };
     private Follower follower;
     private final DcMotorEx m_FrontLeft;
     private final DcMotorEx m_FrontRight;
@@ -186,11 +60,9 @@ public class DriveSubsystem extends SubsystemBase {
         m_BackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
-    public void PedroDrive(double x, double y, double z) {
-        telemetry.addLine("Hi");
-        telemetry.update();
-        this.follower.setTeleOpMovementVectors(x, y, z, false);
-        this.follower.update();
+    public void PedroDrive(Follower follower, double x, double y, double z) {
+        follower.setTeleOpMovementVectors(x, y, z, false);
+        follower.update();
     }
 
 //    public double getHeading() {
@@ -200,8 +72,4 @@ public class DriveSubsystem extends SubsystemBase {
 //    public void resetAngle() {
 //        imu.reset();
 //    }
-
-    public void StopDrive(Follower follower){
-        follower.setTeleOpMovementVectors(0,0,0, false);
-    }
 }
