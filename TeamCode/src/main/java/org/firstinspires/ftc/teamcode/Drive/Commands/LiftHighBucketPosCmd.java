@@ -44,7 +44,6 @@ public class LiftHighBucketPosCmd extends CommandBase {
         if (interrupted) {
             // Optionally set motors to 0 if you want to stop them when interrupted
             m_Lift.setHeightPower(0);
-            m_Lift.setAnglePower(0);
         }
     }
 }

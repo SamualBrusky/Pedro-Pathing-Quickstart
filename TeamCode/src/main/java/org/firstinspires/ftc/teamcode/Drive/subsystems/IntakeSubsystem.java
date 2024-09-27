@@ -31,6 +31,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void rotationToPosition(IntakeDirection position) {
         intakeServo1.setPower(position.getDirection());
-        intakeServo1.setPower(position.getDirection());
+        intakeServo2.setPower(position.getDirection());
     }
 }
