@@ -31,15 +31,8 @@ public class Blue_CloseBucket_2 extends OpMode {
 
     private Timer pathTimer, opmodeTimer, scanTimer, distanceSensorUpdateTimer, distanceSensorDecimationTimer;
 
-    private VisionPortal visionPortal;
 
     private String navigation;
-
-    private DistanceSensor leftDistanceSensor, rightDistanceSensor, rearDistanceSensor;
-
-    private SingleRunAction foldUp;
-
-    private boolean distanceSensorDisconnected, rearDistanceSensorDisconnected;
 
 // IMPORTANT: y increasing is towards the backstage from the audience,
 // while x increasing is towards the red side from the blue side
@@ -79,79 +72,21 @@ public class Blue_CloseBucket_2 extends OpMode {
 
     private Follower follower;
 
-    private Path grabNeutralLeft, grabNeutralMiddle, grabNeutralRight, scoreNeutralLeft, scoreNeutralMiddle, scoreNeutralRight, grabBlueLeft, grabBlueMiddle, grabBlueRight, scoreBlueLeft, scoreBlueMiddle, scoreBlueRight, grabredLeft, grabredMiddle, grabredRight, scoreRedLeft, scoreRedMiddle, scoreRedRight;
+    private PathChain grabNeutralLeft, grabNeutralMiddle, grabNeutralRight, scoreNeutralLeft, scoreNeutralMiddle, scoreNeutralRight, grabBlueLeft, grabBlueMiddle, grabBlueRight, scoreBlueLeft, scoreBlueMiddle, scoreBlueRight, grabredLeft, grabredMiddle, grabredRight, scoreRedLeft, scoreRedMiddle, scoreRedRight;
 
     private int pathState;
+    public void buildPaths() {
 
-//initialScoreOnBackdrop.setConstantHeadingInterpolation(Math.PI * 1.5);
-        initialScoreOnBackdrop.setLinearHeadingInterpolation(scoreSpikeMark.getEndTangent().getTheta(), Math.PI * 1.5, 0.5);
-        initialScoreOnBackdrop.setPathEndTimeoutConstraint(2.5);
-
-        switch (navigation) {
-            default:
-            case "left":
-                firstCycleStackPose = new Pose(blueInnerStack.getX()-3, blueInnerStack.getY() + ROBOT_FRONT_LENGTH-0.5, Math.PI * 1.5 + Math.toRadians(-1));
-                secondCycleStackPose = new Pose(blueInnerStack.getX()-5, blueInnerStack.getY() + ROBOT_FRONT_LENGTH-1.5, Math.PI * 1.5 + Math.toRadians(-2));
-                break;
-            case "middle":
-                firstCycleStackPose = new Pose(blueInnerStack.getX()-3, blueInnerStack.getY() + ROBOT_FRONT_LENGTH-2.5, Math.PI * 1.5 + Math.toRadians(-1.5));
-                secondCycleStackPose = new Pose(blueInnerStack.getX()-5, blueInnerStack.getY() + ROBOT_FRONT_LENGTH-2.75, Math.PI * 1.5 + Math.toRadians(-2.5));
-                break;
-            case "right":
-                firstCycleStackPose = new Pose(blueInnerStack.getX()-3, blueInnerStack.getY() + ROBOT_FRONT_LENGTH-3, Math.PI * 1.5 + Math.toRadians(-2));
-                secondCycleStackPose = new Pose(blueInnerStack.getX()-5, blueInnerStack.getY() + ROBOT_FRONT_LENGTH - 3, Math.PI * 1.5 + Math.toRadians(-5));
-                break;
-        }
-
-        firstCycleToStack = follower.pathBuilder()
-                .addPath(new BezierCurve(new Point(initialBackdropGoalPose), new Point(144-76.5, 106, Point.CARTESIAN), new Point(firstCycleStackPose.getX()+2, 79, Point.CARTESIAN)))
-                .setConstantHeadingInterpolation(firstCycleStackPose.getHeading())
-                .addPath(new BezierLine(new Point(firstCycleStackPose.getX()+2, 79, Point.CARTESIAN), new Point(firstCycleStackPose.getX(), 23, Point.CARTESIAN)))
-                .setConstantHeadingInterpolation(firstCycleStackPose.getHeading())
-                .setPathEndTimeoutConstraint(0)
-                .build();
-
-        firstCycleStackGrab = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(firstCycleStackPose.getX()+0.0001, 32, Point.CARTESIAN), new Point(firstCycleStackPose)))
-                .setConstantHeadingInterpolation(firstCycleStackPose.getHeading())
-                .build();
-
-        firstCycleScoreOnBackdrop = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(firstCycleStackPose), new Point(firstCycleStackPose.getX()+2, 79, Point.CARTESIAN)))
-                .setConstantHeadingInterpolation(firstCycleStackPose.getHeading())
-                .addPath(new BezierCurve(new Point(firstCycleStackPose.getX()+2, 79, Point.CARTESIAN), new Point(144-76.5, 106, Point.CARTESIAN), new Point(firstCycleBackdropGoalPose)))
-                .setConstantHeadingInterpolation(Math.PI * 1.5)
-                .setPathEndTimeoutConstraint(2.5)
-                .build();
-
-        secondCycleToStack = follower.pathBuilder()
-                .addPath(new BezierCurve(new Point(firstCycleBackdropGoalPose), new Point(144-76.5, 106, Point.CARTESIAN), new Point(secondCycleStackPose.getX()+2, 79, Point.CARTESIAN)))
-                .setConstantHeadingInterpolation(secondCycleStackPose.getHeading())
-                .addPath(new BezierLine(new Point(secondCycleStackPose.getX()+2, 79, Point.CARTESIAN), new Point(secondCycleStackPose.getX(), 23, Point.CARTESIAN)))
-                .setConstantHeadingInterpolation(secondCycleStackPose.getHeading())
-                .setPathEndTimeoutConstraint(0)
-                .build();
-
-        secondCycleStackGrab = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(secondCycleStackPose.getX()+0.0001, 32, Point.CARTESIAN), new Point(secondCycleStackPose)))
-                .setConstantHeadingInterpolation(secondCycleStackPose.getHeading())
-                .build();
-
-        secondCycleScoreOnBackdrop = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(secondCycleStackPose), new Point(secondCycleStackPose.getX()+2, 79, Point.CARTESIAN)))
-                .setConstantHeadingInterpolation(secondCycleStackPose.getHeading())
-                .addPath(new BezierCurve(new Point(secondCycleStackPose.getX()+2, 79, Point.CARTESIAN), new Point(144-76.5, 106, Point.CARTESIAN), new Point(secondCycleBackdropGoalPose)))
-                .setConstantHeadingInterpolation(Math.PI * 1.5)
-                .setPathEndTimeoutConstraint(2.5)
+        grabNeutralLeft = follower.pathBuilder()
+                .addPath(new BezierCurve(new Point(blueCloseStartPose), new Point(144-76.5, 106, Point.CARTESIAN), new Point(blueNeutralLeftSpikeMark.getX()+2, 79, Point.CARTESIAN)))
+                .setConstantHeadingInterpolation(blueNeutralLeftSpikeMark.getHeading())
                 .build();
     }
 
     public void autonomousPathUpdate() {
-        switch (pathState) {
             case 10: // starts following the first path to score on the spike mark
-                follower.followPath(scoreSpikeMark);
-                twoPersonDrive.moveToCustomIntakeOutPosition(INTAKE_ARM_OUT_POSITION - 0.01);
-                setPathState(11);
+                follower.followPath(grabNeutralLeft);
+
                 break;
             case 11: // detects the path to progress away from the wall and sets tangent interpolation
                 if (follower.getCurrentTValue() > 0.1) {
@@ -596,12 +531,109 @@ setPathState(314);
         }
     }
 
+    public boolean leftDistanceSensorDisconnected() {
+        return leftDistanceSensor.getDistance(DistanceUnit.MM) == 65535;
+    }
+
+    public boolean rightDistanceSensorDisconnected() {
+        return rightDistanceSensor.getDistance(DistanceUnit.MM) == 65535;
+    }
+
+    public void startDistanceSensorDisconnectDetection(int state) {
+        detectDistanceSensorDisconnect = 0;//state;
+        distanceSensorDisconnectCycleCount = 0;
+        distanceSensorDisconnects.clear();
+    }
+
+    public void updateDistanceSensorDisconnects() {
+        if (detectDistanceSensorDisconnect == 1) {
+            if (distanceSensorDisconnectCycleCount < 10) {
+                if (distanceSensorUpdateTimer.getElapsedTime() > 20) {
+                    distanceSensorDisconnectCycleCount++;
+                    distanceSensorUpdateTimer.resetTimer();
+
+                    distanceSensorDisconnects.add(leftDistanceSensorDisconnected() || rightDistanceSensorDisconnected());
+                }
+            } else {
+                detectDistanceSensorDisconnect = 0;
+
+                distanceSensorDisconnected = true;
+                for (Boolean detection : distanceSensorDisconnects) {
+                    if (!detection) {
+                        distanceSensorDisconnected = false;
+                    }
+                }
+            }
+        } else if (detectDistanceSensorDisconnect == -1) {
+            if (distanceSensorDisconnectCycleCount < 10) {
+                if (distanceSensorUpdateTimer.getElapsedTime() > 20) {
+                    distanceSensorDisconnectCycleCount++;
+                    distanceSensorUpdateTimer.resetTimer();
+
+                    distanceSensorDisconnects.add(rearDistanceSensorDisconnected());
+                }
+            } else {
+                detectDistanceSensorDisconnect = 0;
+
+                rearDistanceSensorDisconnected = true;
+                for (Boolean detection : distanceSensorDisconnects) {
+                    if (!detection) {
+                        rearDistanceSensorDisconnected = false;
+                    }
+                }
+            }
+        }
+    }
+
+    public void backdropCorrection(Pose scorePose, double distanceGoal) {
+        if (distanceSensorDecimationTimer.getElapsedTime() > 20) {
+
+            double distance = rearDistanceSensor.getDistance(DistanceUnit.MM);
+
+            if (distance != 65535) {
+//follower.holdPoint(new BezierPoint(new Point(scorePose.getX(), MathFunctions.clamp(follower.getPose().getY() + (distance / 25.4) - distanceGoal, scorePose.getY() - 4, scorePose.getY() + 4), Point.CARTESIAN)), Math.PI * 1.5);
+                backdropGoalPoint.setCoordinates(scorePose.getX(), MathFunctions.clamp(follower.getPose().getY() + ((distance / 25.4) - distanceGoal), scorePose.getY() - 4, scorePose.getY() + 4), Point.CARTESIAN);
+            } else {
+                rearDistanceSensorDisconnected = true;
+            }
+/*
+// too close
+if (distance < 0.5)
+follower.poseUpdater.setYOffset(follower.poseUpdater.getYOffset() + distanceSensorDecimationTimer.getElapsedTimeSeconds() * 1.5);
+
+// too far
+if (distance > 0.75)
+follower.poseUpdater.setYOffset(follower.poseUpdater.getYOffset() - distanceSensorDecimationTimer.getElapsedTimeSeconds() * 1.5);
+
+// to do add some sort of deadzone or dampening
+// perhaps take note of the estimated pose at the start and see how far off we need to go instead of incrementing off of the current one
+// or just remove the getyoffset thing? think about later
+follower.poseUpdater.setYOffset(follower.poseUpdater.getYOffset() - (distance - 2));
+
+if (Math.abs(follower.poseUpdater.getYOffset()) > 1.5)
+follower.poseUpdater.setYOffset(1.5 * MathFunctions.getSign(follower.poseUpdater.getYOffset()));
+*/
+//telemetry.addData("rear distance value", distance);
+            distanceSensorDecimationTimer.resetTimer();
+        }
+    }
+
+    public boolean rearDistanceSensorDisconnected() {
+        return rearDistanceSensor.getDistance(DistanceUnit.MM) == 65535;
+    }
+
     @Override
     public void loop() {
         updateDistanceSensorDisconnects();
         follower.update();
+        twoPersonDrive.autonomousControlUpdate();
 
         autonomousPathUpdate();
+
+        telemetry.addData("path state", pathState);
+        telemetry.addData("x", follower.getPose().getX());
+        telemetry.addData("y", follower.getPose().getY());
+        twoPersonDrive.telemetry();
 //telemetry.update();
     }
 
@@ -632,6 +664,61 @@ setPathState(314);
         follower = new Follower(hardwareMap);
         follower.setStartingPose(startPose);
 
+        teamPropPipeline = new VisionPortalTeamPropPipeline(2);
+
+        visionPortal = new VisionPortal.Builder()
+                .setCamera(hardwareMap.get(WebcamName.class, "camera"))
+                .addProcessors(teamPropPipeline)
+                .setCameraResolution(new Size(640, 480))
+                .setStreamFormat(VisionPortal.StreamFormat.YUY2)
+                .enableLiveView(true)
+                .setAutoStopLiveView(true)
+                .build();
+
+        twoPersonDrive.initialize();
+        twoPersonDrive.setIntakeArmPosition(INTAKE_ARM_IN_POSITION+0.1);
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        if (leftDistanceSensorDisconnected()) {
+            try {
+                throw new Exception("left distance sensor disconnected");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        if (rightDistanceSensorDisconnected()) {
+            try {
+                throw new Exception("right distance sensor disconnected");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        if (rearDistanceSensorDisconnected()) {
+            try {
+                throw new Exception("color sensor disconnected");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        twoPersonDrive.outerOuttakeClaw.setPosition(OUTER_OUTTAKE_CLAW_CLOSED);
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        twoPersonDrive.intakeClaw.setPosition(INTAKE_CLAW_CLOSED);
+        twoPersonDrive.intakeClawIsOpen=false;
+
         try {
             sleep(2500);
         } catch (InterruptedException e) {
@@ -639,6 +726,20 @@ setPathState(314);
         }
 
         scanTimer.resetTimer();
+    }
+
+    @Override
+    public void init_loop() {
+        if (scanTimer.getElapsedTime() > 750) {
+            navigation = teamPropPipeline.getNavigation();
+            telemetry.addData("Navigation:", navigation);
+            telemetry.update();
+            scanTimer.resetTimer();
+        } else if (scanTimer.getElapsedTime() > 700){
+            visionPortal.setProcessorEnabled(teamPropPipeline, true);
+        } else {
+            visionPortal.setProcessorEnabled(teamPropPipeline, false);
+        }
     }
 
     @Override
@@ -654,3 +755,4 @@ setPathState(314);
     @Override
     public void stop() {
     }
+}
