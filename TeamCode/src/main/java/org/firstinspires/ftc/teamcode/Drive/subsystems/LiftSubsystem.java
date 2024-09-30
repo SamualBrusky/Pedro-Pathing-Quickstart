@@ -13,9 +13,6 @@ public class LiftSubsystem extends SubsystemBase {
 
     private final double HEIGHT_PID_TOLERANCE = 0.5; //inch
 
-    private static final double TICKS_PER_REVOLUTION = 537.6;
-    private static final double INCHES_PER_REVOLUTION = 0.5;
-
     private final double kP = 0.01;
     private final double kI = 0;
     private final double kD = 0.0000;
@@ -29,26 +26,26 @@ public class LiftSubsystem extends SubsystemBase {
         STOW_POSITION(0.0),
         INTAKE_POSITION(10),  // Example: 10 inches height, 45 degrees angle
         HIGH_BUCKET_POSITION(15),
-        LOW_BUCKET_POSITION(5),
+        LOW_BUCKET_POSITION(200),
         SUBMERSIBLE_SETUP_POSITION(7),
         SUBMERSIBLE_SCORE_POSITION(12);
 
-        private final double heightInches;
+        private final double height;
 
-        LiftPosition(double heightInches) {
-            this.heightInches = heightInches;
+        LiftPosition(double height) {
+            this.height = height;
         }
 
-        public double getHeightInches() {
-            return heightInches;
+        public double getHeight() {
+            return height;
         }
 
     }
 
     public LiftSubsystem(HardwareMap hardwareMap) {
         // Initialize motors
-        m_Lift_Motor_Left = new MotorEx(hardwareMap, "liftMotorLeft", Motor.GoBILDA.RPM_312);
-        m_Lift_Motor_Right = new MotorEx(hardwareMap, "liftMotorRight", Motor.GoBILDA.RPM_312);
+        m_Lift_Motor_Left = new MotorEx(hardwareMap, "liftMotorLeft", Motor.GoBILDA.RPM_435);
+        m_Lift_Motor_Right = new MotorEx(hardwareMap, "liftMotorRight", Motor.GoBILDA.RPM_435);
 
         liftGroup = new MotorGroup(m_Lift_Motor_Left, m_Lift_Motor_Right);
 
@@ -58,19 +55,9 @@ public class LiftSubsystem extends SubsystemBase {
         heightPID.setTolerance(HEIGHT_PID_TOLERANCE);  // Tolerance in inches
     }
 
-    // Convert encoder ticks to inches
-    private double ticksToInches(double ticks) {
-        return (ticks / TICKS_PER_REVOLUTION) * INCHES_PER_REVOLUTION;
-    }
-
-    // Convert inches to motor ticks
-    private double inchesToTicks(double inches) {
-        return (inches / INCHES_PER_REVOLUTION) * TICKS_PER_REVOLUTION;
-    }
-
     // Set the setpoint for both height and angle
     public void setSetpoint(LiftPosition position) {
-        heightPID.setSetPoint(inchesToTicks(position.getHeightInches()));
+        heightPID.setSetPoint(position.getHeight());
     }
 
     // Check if both motors are at their setpoints
@@ -79,8 +66,8 @@ public class LiftSubsystem extends SubsystemBase {
     }
 
     // Get the current position of the height motor in inches
-    public double getHeightPositionInches() {
-        return ticksToInches(liftGroup.getCurrentPosition());
+    public double getHeightPosition() {
+        return liftGroup.getCurrentPosition();
     }
 
     // Reset the height motor encoder to zero

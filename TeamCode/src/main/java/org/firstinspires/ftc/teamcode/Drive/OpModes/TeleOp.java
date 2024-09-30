@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Drive.OpModes;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
@@ -42,14 +43,14 @@ public class TeleOp extends CommandOpMode {
 //    private GrabberOpenCmd m_GrabberOpenCmd;
 //    private GrabberCloseCmd m_GrabberCloseCmd;
 //    private LiftSubmersibleSetupCmd m_LiftSubmersibleSetupCmd;
-//    private LiftLowBucketPosCmd m_LiftLowBucketPosCmd;
+    private LiftLowBucketPosCmd m_LiftLowBucketPosCmd;
 //    private LiftSubmersibleScoreCmd m_LiftSubmersibleScoreCmd;
       private DriveCmd m_DriveCmd;
 
     public DriveSubsystem m_DriveSubsystem;
 
 //    private GrabberSubsystem m_GrabberSubsystem;
-//    LiftSubsystem m_LiftSubsystem;
+    public LiftSubsystem m_LiftSubsystem;
 
 
     public void whileWaitingToStart() {
@@ -66,7 +67,7 @@ public class TeleOp extends CommandOpMode {
                 )
         );
         // Chasis Motors
-//        m_LiftSubsystem = new LiftSubsystem(hardwareMap);
+        m_LiftSubsystem = new LiftSubsystem(hardwareMap);
         m_DriveSubsystem = new DriveSubsystem(hardwareMap);
         follower = new Follower(hardwareMap);
 //        //Intake
@@ -82,17 +83,17 @@ public class TeleOp extends CommandOpMode {
 //        m_GrabberCloseCmd = new GrabberCloseCmd(m_GrabberSubsystem);
 //        m_GrabberOpenCmd = new GrabberOpenCmd(m_GrabberSubsystem);
 //        m_LiftSubmersibleScoreCmd = new LiftSubmersibleScoreCmd(m_LiftSubsystem);
-//        m_LiftLowBucketPosCmd = new LiftLowBucketPosCmd(m_LiftSubsystem);
+        m_LiftLowBucketPosCmd = new LiftLowBucketPosCmd(m_LiftSubsystem);
 //        m_LiftSubmersibleSetupCmd = new LiftSubmersibleSetupCmd(m_LiftSubsystem);
 
        // m_engineerOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(m_LiftintakePosCmd);
 //        m_engineerOp.getGamepadButton(GamepadKeys.Button.X).whenPressed(m_GrabberOpenCmd);
 //        m_engineerOp.getGamepadButton(GamepadKeys.Button.A).whenPressed(m_GrabberCloseCmd);
 //        m_engineerOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(m_LiftHighBucketPosCmd);
-//        m_engineerOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(m_LiftLowBucketPosCmd);
+        m_engineerOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(m_LiftLowBucketPosCmd);
 //        m_engineerOp.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(m_LiftSubmersibleScoreCmd);
 //        m_engineerOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(m_LiftSubmersibleSetupCmd);
-//
+
 
 //        follower.setTeleOpMovementVectors(m_driverOp.getLeftY(), m_driverOp.getLeftX(), m_driverOp.getRightX(), false);
 //        follower.update();
@@ -100,9 +101,9 @@ public class TeleOp extends CommandOpMode {
         m_DriveSubsystem.setDefaultCommand( new DriveCmd(
                 m_DriveSubsystem,
                 follower,
-                () -> m_driverOp.getLeftY(),
+                () -> -m_driverOp.getLeftY(),
                 () -> m_driverOp.getLeftX(),
-                () -> m_driverOp.getRightX()
+                () -> m_driverOp.getRightY()
         ));
 
 //        while (opModeIsActive()) {
