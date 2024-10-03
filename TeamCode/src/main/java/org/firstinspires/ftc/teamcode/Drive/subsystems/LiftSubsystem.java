@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.controller.PIDFController;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.arcrobotics.ftclib.hardware.motors.MotorGroup;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class LiftSubsystem extends SubsystemBase {
@@ -15,7 +16,7 @@ public class LiftSubsystem extends SubsystemBase {
 
     private final double kP = 0.01;
     private final double kI = 0;
-    private final double kD = 0.0000;
+    private final double kD = 0.00;
     private final double kF = 0;
 
     private final PIDFController heightPID = new PIDFController(kP, kI, kD, kF);
@@ -25,10 +26,10 @@ public class LiftSubsystem extends SubsystemBase {
     public enum LiftPosition {
         STOW_POSITION(0.0),
         INTAKE_POSITION(10),  // Example: 10 inches height, 45 degrees angle
-        HIGH_BUCKET_POSITION(15),
-        LOW_BUCKET_POSITION(200),
-        SUBMERSIBLE_SETUP_POSITION(7),
-        SUBMERSIBLE_SCORE_POSITION(12);
+        HIGH_BUCKET_POSITION(400),
+        LOW_BUCKET_POSITION(250),
+        SUBMERSIBLE_SETUP_POSITION(300),
+        SUBMERSIBLE_SCORE_POSITION(225);
 
         private final double height;
 
@@ -46,6 +47,8 @@ public class LiftSubsystem extends SubsystemBase {
         // Initialize motors
         m_Lift_Motor_Left = new MotorEx(hardwareMap, "liftMotorLeft", Motor.GoBILDA.RPM_435);
         m_Lift_Motor_Right = new MotorEx(hardwareMap, "liftMotorRight", Motor.GoBILDA.RPM_435);
+
+        m_Lift_Motor_Right.setInverted(true);
 
         liftGroup = new MotorGroup(m_Lift_Motor_Left, m_Lift_Motor_Right);
 
@@ -87,6 +90,6 @@ public class LiftSubsystem extends SubsystemBase {
         double heightPower = heightPID.calculate(liftGroup.getCurrentPosition());
 
         // Set motor powers, clamped to valid ranges
-        liftGroup.set(Math.max(-0.5, Math.min(0.5, heightPower)));
+        liftGroup.set(Math.max(-0.25, Math.min(0.25, heightPower)));
     }
 }
