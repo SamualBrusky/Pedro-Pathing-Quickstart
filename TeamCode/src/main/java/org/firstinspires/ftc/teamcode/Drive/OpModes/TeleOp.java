@@ -17,6 +17,8 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.teamcode.Drive.Commands.DriveCmd;
 import org.firstinspires.ftc.teamcode.Drive.Commands.GrabberCloseCmd;
 import org.firstinspires.ftc.teamcode.Drive.Commands.GrabberOpenCmd;
+import org.firstinspires.ftc.teamcode.Drive.Commands.LiftClimbCmd
+import org.firstinspires.ftc.teamcode.Drive.Commands.LiftClimbDownCmd
 import org.firstinspires.ftc.teamcode.Drive.Commands.LiftHighBucketPosCmd;
 import org.firstinspires.ftc.teamcode.Drive.Commands.LiftIntakePosCmd;
 import org.firstinspires.ftc.teamcode.Drive.Commands.LiftLowBucketPosCmd;
@@ -43,8 +45,10 @@ public class TeleOp extends CommandOpMode {
 //    private GrabberOpenCmd m_GrabberOpenCmd;
 //    private GrabberCloseCmd m_GrabberCloseCmd;
 //    private LiftSubmersibleSetupCmd m_LiftSubmersibleSetupCmd;
-    private LiftLowBucketPosCmd m_LiftLowBucketPosCmd;
 //    private LiftSubmersibleScoreCmd m_LiftSubmersibleScoreCmd;
+    private LiftClimbCmd m_LiftClimbCmd;
+    private LiftClimbDownCmd m_LiftClimbDownCmd;
+//    private LiftSubersibleSetupCmd m_LiftSubmersibleSetupCmd;
       private DriveCmd m_DriveCmd;
 
     public DriveSubsystem m_DriveSubsystem;
@@ -76,6 +80,7 @@ public class TeleOp extends CommandOpMode {
         m_driverOp = new GamepadEx(gamepad1);
         m_engineerOp = new GamepadEx(gamepad2);
 
+        m_LiftSubsystem.resetHeightEncoder();
         //init commands
 //        m_LiftStartPosCmd = new LiftStartPosCmd(m_LiftSubsystem);
 //        m_LiftHighBucketPosCmd = new LiftHighBucketPosCmd(m_LiftSubsystem);
@@ -83,14 +88,16 @@ public class TeleOp extends CommandOpMode {
 //        m_GrabberCloseCmd = new GrabberCloseCmd(m_GrabberSubsystem);
 //        m_GrabberOpenCmd = new GrabberOpenCmd(m_GrabberSubsystem);
 //        m_LiftSubmersibleScoreCmd = new LiftSubmersibleScoreCmd(m_LiftSubsystem);
-        m_LiftLowBucketPosCmd = new LiftLowBucketPosCmd(m_LiftSubsystem);
+//        m_LiftSubmersibleSetupCmd = new LiftSubmersibleSetupCmd(m_LiftSubsystem);
+        m_LiftClimbCmd = new LiftClimbCmd(m_LiftSubsystem);
+        m_LiftClimbDownCmd = new LiftClimbDownCmd(m_LiftSubsystem);
 //        m_LiftSubmersibleSetupCmd = new LiftSubmersibleSetupCmd(m_LiftSubsystem);
 
        // m_engineerOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(m_LiftintakePosCmd);
 //        m_engineerOp.getGamepadButton(GamepadKeys.Button.X).whenPressed(m_GrabberOpenCmd);
 //        m_engineerOp.getGamepadButton(GamepadKeys.Button.A).whenPressed(m_GrabberCloseCmd);
 //        m_engineerOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(m_LiftHighBucketPosCmd);
-        m_engineerOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(m_LiftLowBucketPosCmd);
+        m_engineerOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(new LiftLowBucketPosCmd(m_LiftSubsystem));
 //        m_engineerOp.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(m_LiftSubmersibleScoreCmd);
 //        m_engineerOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(m_LiftSubmersibleSetupCmd);
 

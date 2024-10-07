@@ -27,10 +27,12 @@ public class LiftSubsystem extends SubsystemBase {
         STOW_POSITION(0.0),
         INTAKE_POSITION(10),  // Example: 10 inches height, 45 degrees angle
         HIGH_BUCKET_POSITION(400),
-        LOW_BUCKET_POSITION(250),
+        LOW_BUCKET_POSITION(1000),
         SUBMERSIBLE_SETUP_POSITION(300),
         SUBMERSIBLE_SCORE_POSITION(225);
+        Climb_Up(500);
 
+        Climb_Down(200);
         private final double height;
 
         LiftPosition(double height) {
@@ -87,9 +89,9 @@ public class LiftSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // Calculate the output for both motors using their respective PID controllers
-        double heightPower = heightPID.calculate(liftGroup.getCurrentPosition());
+        double heightPower = heightPID.calculate(m_Lift_Motor_Left.getCurrentPosition());
 
         // Set motor powers, clamped to valid ranges
-        liftGroup.set(Math.max(-0.25, Math.min(0.25, heightPower)));
+        liftGroup.set(Math.max(-0.75, Math.min(0.75, heightPower)));
     }
 }
