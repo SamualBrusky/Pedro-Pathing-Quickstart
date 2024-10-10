@@ -29,8 +29,8 @@ public class LiftSubsystem extends SubsystemBase {
         HIGH_BUCKET_POSITION(400),
         LOW_BUCKET_POSITION(1000),
         SUBMERSIBLE_SETUP_POSITION(300),
-        SUBMERSIBLE_SCORE_POSITION(225);
-        Climb_Up(500);
+        SUBMERSIBLE_SCORE_POSITION(225),
+        Climb_Up(500),
 
         Climb_Down(200);
         private final double height;

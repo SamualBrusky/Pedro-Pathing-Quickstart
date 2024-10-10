@@ -17,8 +17,8 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.teamcode.Drive.Commands.DriveCmd;
 import org.firstinspires.ftc.teamcode.Drive.Commands.GrabberCloseCmd;
 import org.firstinspires.ftc.teamcode.Drive.Commands.GrabberOpenCmd;
-import org.firstinspires.ftc.teamcode.Drive.Commands.LiftClimbCmd
-import org.firstinspires.ftc.teamcode.Drive.Commands.LiftClimbDownCmd
+import org.firstinspires.ftc.teamcode.Drive.Commands.LiftClimbCmd;
+import org.firstinspires.ftc.teamcode.Drive.Commands.LiftClimbDownCmd;
 import org.firstinspires.ftc.teamcode.Drive.Commands.LiftHighBucketPosCmd;
 import org.firstinspires.ftc.teamcode.Drive.Commands.LiftIntakePosCmd;
 import org.firstinspires.ftc.teamcode.Drive.Commands.LiftLowBucketPosCmd;
@@ -108,9 +108,9 @@ public class TeleOp extends CommandOpMode {
         m_DriveSubsystem.setDefaultCommand( new DriveCmd(
                 m_DriveSubsystem,
                 follower,
-                () -> -m_driverOp.getLeftY(),
+                () -> -m_driverOp.getRightX(),
                 () -> m_driverOp.getLeftX(),
-                () -> m_driverOp.getRightY()
+                () -> m_driverOp.getLeftY()
         ));
 
 //        while (opModeIsActive()) {

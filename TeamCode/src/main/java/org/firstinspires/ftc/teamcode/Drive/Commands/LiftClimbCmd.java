@@ -29,7 +29,7 @@ public class LiftClimbCmd extends CommandBase {
     // No need to do anything continuously
     @Override
     public void execute() {
-        m_Lift.setSetpoint(LiftSubsystem.LiftPosition.CLIMB_UP);
+        m_Lift.setSetpoint(LiftSubsystem.LiftPosition.Climb_Up);
     }
 
     // The command is finished when the lift reaches the setpoint

@@ -19,6 +19,7 @@ import com.arcrobotics.ftclib.trajectory.Trajectory;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
@@ -54,6 +55,9 @@ public class DriveSubsystem extends SubsystemBase {
                 )
         );
 
+//        m_BackRight.setDirection(DcMotorSimple.Direction.REVERSE);
+//        m_FrontRight.setDirection(DcMotorSimple.Direction.REVERSE);
+
         m_FrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         m_FrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         m_BackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -61,8 +65,11 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void PedroDrive(Follower follower, double x, double y, double z) {
-        follower.setTeleOpMovementVectors(x
-                , y, z, false);
+        follower.setTeleOpMovementVectors(
+                x,
+                y,
+                z,
+                false);
         follower.update();
     }
 
