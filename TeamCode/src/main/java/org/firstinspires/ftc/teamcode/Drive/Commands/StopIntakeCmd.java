@@ -14,8 +14,8 @@ public class StopIntakeCmd extends CommandBase {
 
     @Override
     public void execute() {
-
-        m_Intake.rotationToPosition(IntakeSubsystem.IntakeDirection.FORWARD);
+        m_Intake.rotationToPosition(IntakeSubsystem.HandDirection.STOPPED);
+        m_Intake.setArmPosition(IntakeSubsystem.ArmPosition.HOLD_POSITION);
     }
 
     @Override

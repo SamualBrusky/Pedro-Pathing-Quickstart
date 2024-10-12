@@ -14,8 +14,8 @@ public class OuttakeCmd extends CommandBase {
 
     @Override
     public void execute() {
-
-        m_Intake.rotationToPosition(IntakeSubsystem.IntakeDirection.BACKWARD);
+        m_Intake.rotationToPosition(IntakeSubsystem.HandDirection.BACKWARD);
+        m_Intake.setArmPosition(IntakeSubsystem.ArmPosition.HALFWAY_POSITION);
     }
 
     @Override

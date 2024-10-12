@@ -167,6 +167,7 @@ public class Follower {
         m_FrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         m_BackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
+
         motors = Arrays.asList(m_FrontLeft, m_BackLeft, m_FrontRight, m_BackRight);
 
         for (DcMotorEx motor : motors) {
@@ -176,7 +177,7 @@ public class Follower {
         }
 
         for (DcMotorEx motor : motors) {
-            motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
 
         dashboardPoseTracker = new DashboardPoseTracker(poseUpdater);

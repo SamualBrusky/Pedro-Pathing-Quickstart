@@ -29,7 +29,7 @@ public class LiftHighBucketPosCmd extends CommandBase {
     // No need to do anything continuously
     @Override
     public void execute() {
-        m_Lift.setSetpoint(LiftSubsystem.LiftPosition.INTAKE_POSITION);
+        m_Lift.setSetpoint(LiftSubsystem.LiftPosition.HIGH_BUCKET_POSITION);
     }
 
     // The command is finished when the lift reaches the setpoint

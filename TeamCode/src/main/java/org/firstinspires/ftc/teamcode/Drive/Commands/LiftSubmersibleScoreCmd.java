@@ -30,7 +30,7 @@ public class LiftSubmersibleScoreCmd extends CommandBase {
     // No need to do anything continuously
     @Override
     public void execute() {
-        m_Lift.setSetpoint(LiftSubsystem.LiftPosition.SUBMERSIBLE_SCORE_POSITION);
+        m_Lift.setSetpoint(LiftSubsystem.LiftPosition.SUBMERSIBLE_LOW_SCORE_POSITION);
     }
 
     // The command is finished when the lift reaches the setpoint

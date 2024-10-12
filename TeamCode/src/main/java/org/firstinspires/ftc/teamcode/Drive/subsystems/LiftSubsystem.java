@@ -24,12 +24,13 @@ public class LiftSubsystem extends SubsystemBase {
     private MotorGroup liftGroup;
 
     public enum LiftPosition {
-        STOW_POSITION(0.0),
-        INTAKE_POSITION(10),  // Example: 10 inches height, 45 degrees angle
-        HIGH_BUCKET_POSITION(400),
-        LOW_BUCKET_POSITION(1000),
-        SUBMERSIBLE_SETUP_POSITION(300),
-        SUBMERSIBLE_SCORE_POSITION(225),
+        STOW_POSITION(50),
+        HIGH_BUCKET_POSITION(3000),
+        LOW_BUCKET_POSITION(1500),
+        SUBMERSIBLE_LOW_SETUP_POSITION(300),
+        SUBMERSIBLE_LOW_SCORE_POSITION(225),
+        SUBMERSIBLE_HIGH_SETUP_POSITION(300),
+        SUBMERSIBLE_HIGH_SCORE_POSITION(225),
         Climb_Up(500),
 
         Climb_Down(200);
@@ -50,7 +51,7 @@ public class LiftSubsystem extends SubsystemBase {
         m_Lift_Motor_Left = new MotorEx(hardwareMap, "liftMotorLeft", Motor.GoBILDA.RPM_435);
         m_Lift_Motor_Right = new MotorEx(hardwareMap, "liftMotorRight", Motor.GoBILDA.RPM_435);
 
-        m_Lift_Motor_Right.setInverted(true);
+        m_Lift_Motor_Left.setInverted(true);
 
         liftGroup = new MotorGroup(m_Lift_Motor_Left, m_Lift_Motor_Right);
 

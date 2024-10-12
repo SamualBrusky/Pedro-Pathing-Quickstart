@@ -2,31 +2,23 @@ package org.firstinspires.ftc.teamcode.Drive.OpModes;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
-import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
-import com.arcrobotics.ftclib.hardware.HardwareDevice;
-import com.arcrobotics.ftclib.hardware.RevIMU;
-import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.teamcode.Drive.Commands.DriveCmd;
-import org.firstinspires.ftc.teamcode.Drive.Commands.GrabberCloseCmd;
-import org.firstinspires.ftc.teamcode.Drive.Commands.GrabberOpenCmd;
+import org.firstinspires.ftc.teamcode.Drive.Commands.IntakeCmd;
 import org.firstinspires.ftc.teamcode.Drive.Commands.LiftClimbCmd;
 import org.firstinspires.ftc.teamcode.Drive.Commands.LiftClimbDownCmd;
 import org.firstinspires.ftc.teamcode.Drive.Commands.LiftHighBucketPosCmd;
-import org.firstinspires.ftc.teamcode.Drive.Commands.LiftIntakePosCmd;
 import org.firstinspires.ftc.teamcode.Drive.Commands.LiftLowBucketPosCmd;
 import org.firstinspires.ftc.teamcode.Drive.Commands.LiftStartPosCmd;
-import org.firstinspires.ftc.teamcode.Drive.Commands.LiftSubmersibleScoreCmd;
-import org.firstinspires.ftc.teamcode.Drive.Commands.LiftSubmersibleSetupCmd;
+import org.firstinspires.ftc.teamcode.Drive.Commands.OuttakeCmd;
+import org.firstinspires.ftc.teamcode.Drive.Commands.StopIntakeCmd;
 import org.firstinspires.ftc.teamcode.Drive.subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.Drive.subsystems.GrabberSubsystem;
+import org.firstinspires.ftc.teamcode.Drive.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.Drive.subsystems.LiftSubsystem;
 import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
 
@@ -46,15 +38,15 @@ public class TeleOp extends CommandOpMode {
 //    private GrabberCloseCmd m_GrabberCloseCmd;
 //    private LiftSubmersibleSetupCmd m_LiftSubmersibleSetupCmd;
 //    private LiftSubmersibleScoreCmd m_LiftSubmersibleScoreCmd;
-    private LiftClimbCmd m_LiftClimbCmd;
-    private LiftClimbDownCmd m_LiftClimbDownCmd;
+//    private LiftClimbCmd m_LiftClimbCmd;
+//    private LiftClimbDownCmd m_LiftClimbDownCmd;
 //    private LiftSubersibleSetupCmd m_LiftSubmersibleSetupCmd;
-      private DriveCmd m_DriveCmd;
+//      private DriveCmd m_DriveCmd;
 
     public DriveSubsystem m_DriveSubsystem;
-
-//    private GrabberSubsystem m_GrabberSubsystem;
+    public GrabberSubsystem m_GrabberSubsystem;
     public LiftSubsystem m_LiftSubsystem;
+    public IntakeSubsystem m_IntakeSubsystem;
 
 
     public void whileWaitingToStart() {
@@ -70,12 +62,13 @@ public class TeleOp extends CommandOpMode {
                         RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
                 )
         );
-        // Chasis Motors
+
         m_LiftSubsystem = new LiftSubsystem(hardwareMap);
+        m_IntakeSubsystem = new IntakeSubsystem(hardwareMap);
         m_DriveSubsystem = new DriveSubsystem(hardwareMap);
+    //    m_GrabberSubsystem = new GrabberSubsystem(hardwareMap);
         follower = new Follower(hardwareMap);
-//        //Intake
-//        m_GrabberSubsystem = new GrabberSubsystem(hardwareMap);
+
         //Gamepads
         m_driverOp = new GamepadEx(gamepad1);
         m_engineerOp = new GamepadEx(gamepad2);
@@ -89,41 +82,38 @@ public class TeleOp extends CommandOpMode {
 //        m_GrabberOpenCmd = new GrabberOpenCmd(m_GrabberSubsystem);
 //        m_LiftSubmersibleScoreCmd = new LiftSubmersibleScoreCmd(m_LiftSubsystem);
 //        m_LiftSubmersibleSetupCmd = new LiftSubmersibleSetupCmd(m_LiftSubsystem);
-        m_LiftClimbCmd = new LiftClimbCmd(m_LiftSubsystem);
-        m_LiftClimbDownCmd = new LiftClimbDownCmd(m_LiftSubsystem);
+//        m_LiftClimbCmd = new LiftClimbCmd(m_LiftSubsystem);
+//        m_LiftClimbDownCmd = new LiftClimbDownCmd(m_LiftSubsystem);
 //        m_LiftSubmersibleSetupCmd = new LiftSubmersibleSetupCmd(m_LiftSubsystem);
 
-       // m_engineerOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(m_LiftintakePosCmd);
-//        m_engineerOp.getGamepadButton(GamepadKeys.Button.X).whenPressed(m_GrabberOpenCmd);
-//        m_engineerOp.getGamepadButton(GamepadKeys.Button.A).whenPressed(m_GrabberCloseCmd);
-//        m_engineerOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(m_LiftHighBucketPosCmd);
-        m_engineerOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(new LiftLowBucketPosCmd(m_LiftSubsystem));
-//        m_engineerOp.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(m_LiftSubmersibleScoreCmd);
-//        m_engineerOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(m_LiftSubmersibleSetupCmd);
+       // m_engineerOp.getGamepadButton(GamepadKeys.Button.X)
+    //                .whenPressed(new IntakeCmd(m_IntakeSubsystem, m_LiftSubsystem));
 
+        m_engineerOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
+                    .whenPressed(new LiftLowBucketPosCmd(m_LiftSubsystem));
 
-//        follower.setTeleOpMovementVectors(m_driverOp.getLeftY(), m_driverOp.getLeftX(), m_driverOp.getRightX(), false);
-//        follower.update();
+        m_engineerOp.getGamepadButton(GamepadKeys.Button.X)
+                .whenPressed(new LiftStartPosCmd(m_LiftSubsystem));
+
+        m_engineerOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
+                    .whenPressed(new LiftHighBucketPosCmd(m_LiftSubsystem));
+
+        m_engineerOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
+                .whenPressed(new IntakeCmd(m_IntakeSubsystem));
+
+        m_engineerOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
+                .whenPressed(new OuttakeCmd(m_IntakeSubsystem));
+
+        m_engineerOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                .whenPressed(new StopIntakeCmd(m_IntakeSubsystem));
+
 
         m_DriveSubsystem.setDefaultCommand( new DriveCmd(
                 m_DriveSubsystem,
                 follower,
-                () -> -m_driverOp.getRightX(),
+                () -> -m_driverOp.getLeftY(),
                 () -> m_driverOp.getLeftX(),
-                () -> m_driverOp.getLeftY()
+                () -> m_driverOp.getRightX()
         ));
-
-//        while (opModeIsActive()) {
-//
-//
-//
-////            m_DriveSubsystem.PedroDrive(m_driverOp.getLeftY(), m_driverOp.getLeftX(), m_driverOp.getRightX());
-//        }
-
-
-
-
-
-//        }
     }
 }
