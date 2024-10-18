@@ -41,7 +41,6 @@ public class TeleOp extends CommandOpMode {
 //    private LiftClimbCmd m_LiftClimbCmd;
 //    private LiftClimbDownCmd m_LiftClimbDownCmd;
 //    private LiftSubersibleSetupCmd m_LiftSubmersibleSetupCmd;
-//      private DriveCmd m_DriveCmd;
 
     public DriveSubsystem m_DriveSubsystem;
     public GrabberSubsystem m_GrabberSubsystem;
@@ -74,20 +73,22 @@ public class TeleOp extends CommandOpMode {
         m_engineerOp = new GamepadEx(gamepad2);
 
         m_LiftSubsystem.resetHeightEncoder();
-        //init commands
-//        m_LiftStartPosCmd = new LiftStartPosCmd(m_LiftSubsystem);
-//        m_LiftHighBucketPosCmd = new LiftHighBucketPosCmd(m_LiftSubsystem);
-//        //m_LiftintakePosCmd = new LiftIntakePosCmd(m_LiftSubsystem);
-//        m_GrabberCloseCmd = new GrabberCloseCmd(m_GrabberSubsystem);
-//        m_GrabberOpenCmd = new GrabberOpenCmd(m_GrabberSubsystem);
-//        m_LiftSubmersibleScoreCmd = new LiftSubmersibleScoreCmd(m_LiftSubsystem);
-//        m_LiftSubmersibleSetupCmd = new LiftSubmersibleSetupCmd(m_LiftSubsystem);
-//        m_LiftClimbCmd = new LiftClimbCmd(m_LiftSubsystem);
-//        m_LiftClimbDownCmd = new LiftClimbDownCmd(m_LiftSubsystem);
-//        m_LiftSubmersibleSetupCmd = new LiftSubmersibleSetupCmd(m_LiftSubsystem);
 
-       // m_engineerOp.getGamepadButton(GamepadKeys.Button.X)
-    //                .whenPressed(new IntakeCmd(m_IntakeSubsystem, m_LiftSubsystem));
+        m_IntakeSubsystem.setArmPosition(IntakeSubsystem.ArmPosition.TUCK_POSITION);
+        /*
+        init commands
+
+        m_LiftStartPosCmd = new LiftStartPosCmd(m_LiftSubsystem);
+        m_LiftHighBucketPosCmd = new LiftHighBucketPosCmd(m_LiftSubsystem);
+        m_LiftintakePosCmd = new LiftIntakePosCmd(m_LiftSubsystem);
+        m_GrabberCloseCmd = new GrabberCloseCmd(m_GrabberSubsystem);
+        m_GrabberOpenCmd = new GrabberOpenCmd(m_GrabberSubsystem);
+        m_LiftSubmersibleScoreCmd = new LiftSubmersibleScoreCmd(m_LiftSubsystem);
+        m_LiftSubmersibleSetupCmd = new LiftSubmersibleSetupCmd(m_LiftSubsystem);
+        m_LiftClimbCmd = new LiftClimbCmd(m_LiftSubsystem);
+        m_LiftClimbDownCmd = new LiftClimbDownCmd(m_LiftSubsystem);
+        m_LiftSubmersibleSetupCmd = new LiftSubmersibleSetupCmd(m_LiftSubsystem);
+*/
 
         m_engineerOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                     .whenPressed(new LiftLowBucketPosCmd(m_LiftSubsystem));
@@ -115,5 +116,9 @@ public class TeleOp extends CommandOpMode {
                 () -> m_driverOp.getLeftX(),
                 () -> m_driverOp.getRightX()
         ));
+    }
+    @Override
+    public void reset(){
+        m_IntakeSubsystem.setArmPosition(IntakeSubsystem.ArmPosition.TUCK_POSITION);
     }
 }

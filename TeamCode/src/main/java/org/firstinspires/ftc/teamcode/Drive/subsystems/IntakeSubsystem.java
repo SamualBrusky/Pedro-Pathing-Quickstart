@@ -29,9 +29,10 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public enum ArmPosition {
-        HOLD_POSITION(1),
-        GRAB_POSITION(0),
-        HALFWAY_POSITION(-1);
+        TUCK_POSITION(1.0),
+        HOLD_POSITION(0.75),
+        HALFWAY_POSITION(0.35),
+        GRAB_POSITION(0.1);
 
         private final double Position;
 
@@ -50,16 +51,18 @@ public class IntakeSubsystem extends SubsystemBase {
 
         leftArm = hardwareMap.get(Servo.class, "armLeft");
         rightArm = hardwareMap.get(Servo.class, "armRight");
+        rightArm.setDirection(Servo.Direction.REVERSE);
 
     }
 
     public void rotationToPosition(HandDirection position) {
         backHand.setPower(position.getDirection());
-        frontHand.setPower(position.getDirection());
+        frontHand.setPower(-position.getDirection());
     }
 
     public void setArmPosition(ArmPosition position) {
         leftArm.setPosition(position.getPosition());
         rightArm.setPosition(position.getPosition());
+
     }
 }

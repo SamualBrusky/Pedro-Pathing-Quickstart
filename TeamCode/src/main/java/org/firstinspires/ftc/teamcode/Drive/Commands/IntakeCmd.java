@@ -15,8 +15,8 @@ public class IntakeCmd extends CommandBase {
 
     @Override
     public void execute() {
-        m_Intake.rotationToPosition(IntakeSubsystem.HandDirection.STOPPED);
-        m_Intake.setArmPosition(IntakeSubsystem.ArmPosition.HOLD_POSITION);
+        m_Intake.rotationToPosition(IntakeSubsystem.HandDirection.FORWARD);
+        m_Intake.setArmPosition(IntakeSubsystem.ArmPosition.GRAB_POSITION);
 
     }
 
